@@ -146,7 +146,11 @@ def DeepCapsNet28(input_shape, n_class, routings):
 
     # Decoder Network
     decoder = models.Sequential(name='decoder')
-    decoder.add(Dense(input_dim=32, activation="relu", output_dim=7 * 7 * 16))
+    #decoder.add(Dense(input_dim=32, activation="relu", output_dim=7 * 7 * 16))
+    decoder.add(tf.keras.Input(shape=(32,)))
+    decoder.add(tf.keras.layers.Dense(7*7*16, activation='relu'))
+
+
     decoder.add(Reshape((7, 7, 16)))
     decoder.add(BatchNormalization(momentum=0.8))
     decoder.add(Deconvolution2D(64, 3, 3, subsample=(1, 1), border_mode='same'))
