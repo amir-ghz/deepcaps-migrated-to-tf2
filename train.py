@@ -52,7 +52,7 @@ def train(model, data, hard_training, args):
 
     parallel_model.fit(train_generator(x_train, y_train, args.batch_size, args.shift_fraction),
                                  steps_per_epoch=int(y_train.shape[0] / args.batch_size), epochs=args.epochs,
-                                 validation_data=[[x_test, y_test], [y_test, x_test]], callbacks=[lr_decay, log, checkpoint1, checkpoint2],
+                                 validation_data=([x_test, y_test], [y_test, x_test]), callbacks=[lr_decay, log, checkpoint1, checkpoint2],
                                  initial_epoch=int(args.ep_num),
                                  shuffle=True)
 
