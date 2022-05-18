@@ -2,7 +2,8 @@ from keras import backend as K
 from keras import layers, models, optimizers
 from keras.layers import Layer
 from keras.layers import Input, Conv2D, Activation, Dense, Dropout, Lambda, Reshape, Concatenate
-from keras.layers import BatchNormalization, MaxPooling2D, Flatten, Conv1D, Deconvolution2D, Conv2DTranspose
+from keras.layers import BatchNormalization
+ from keras.layers.convolutional import Deconvolution2D
 from keras.callbacks import Callback, ModelCheckpoint, TensorBoard
 from keras.utils import plot_model
 from keras.layers.convolutional import UpSampling2D
