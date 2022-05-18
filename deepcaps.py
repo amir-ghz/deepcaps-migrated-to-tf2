@@ -153,10 +153,10 @@ def DeepCapsNet28(input_shape, n_class, routings):
 
     decoder.add(Reshape((7, 7, 16)))
     decoder.add(BatchNormalization(momentum=0.8))
-    decoder.add(Deconvolution2D(64, 3, 3, stride=(1, 1), border_mode='same'))
-    decoder.add(Deconvolution2D(32, 3, 3, stride=(2, 2), border_mode='same'))
-    decoder.add(Deconvolution2D(16, 3, 3, stride=(2, 2), border_mode='same'))
-    decoder.add(Deconvolution2D(1, 3, 3, stride=(1, 1), border_mode='same'))
+    decoder.add(Deconvolution2D(64, 3, 3, strides=(1, 1), border_mode='same'))
+    decoder.add(Deconvolution2D(32, 3, 3, strides=(2, 2), border_mode='same'))
+    decoder.add(Deconvolution2D(16, 3, 3, strides=(2, 2), border_mode='same'))
+    decoder.add(Deconvolution2D(1, 3, 3, strides=(1, 1), border_mode='same'))
     decoder.add(Activation("relu"))
     decoder.add(Reshape(target_shape=(28, 28, 1), name='out_recon'))
 
