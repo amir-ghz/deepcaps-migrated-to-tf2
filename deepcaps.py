@@ -3,7 +3,7 @@ from keras import layers, models, optimizers
 from keras.layers import Layer
 from keras.layers import Input, Conv2D, Activation, Dense, Dropout, Lambda, Reshape, Concatenate
 from keras.layers import BatchNormalization
-from keras.layers.convolutional import tf.keras.layers.Conv2DTranspose
+from keras.layers.convolutional import Deconvolution2D
 from keras.callbacks import Callback, ModelCheckpoint, TensorBoard
 from keras.utils.vis_utils import plot_model
 from keras.layers.convolutional import UpSampling2D
@@ -77,11 +77,11 @@ def DeepCapsNet(input_shape, n_class, routings):
     decoder.add(Dense(input_dim=32, activation="relu", output_dim=8 * 8 * 16))
     decoder.add(Reshape((8, 8, 16)))
     decoder.add(BatchNormalization(momentum=0.8))
-    decoder.add(tf.keras.layers.Conv2DTranspose(64, 3, 3, subsample=(1, 1), border_mode='same'))
-    decoder.add(tf.keras.layers.Conv2DTranspose(32, 3, 3, subsample=(2, 2), border_mode='same'))
-    decoder.add(tf.keras.layers.Conv2DTranspose(16, 3, 3, subsample=(2, 2), border_mode='same'))
-    decoder.add(tf.keras.layers.Conv2DTranspose(8, 3, 3, subsample=(2, 2), border_mode='same'))
-    decoder.add(tf.keras.layers.Conv2DTranspose(3, 3, 3, subsample=(1, 1), border_mode='same'))
+    decoder.add(Deconvolution2D(64, 3, 3, subsample=(1, 1), border_mode='same'))
+    decoder.add(Deconvolution2D(32, 3, 3, subsample=(2, 2), border_mode='same'))
+    decoder.add(Deconvolution2D(16, 3, 3, subsample=(2, 2), border_mode='same'))
+    decoder.add(Deconvolution2D(8, 3, 3, subsample=(2, 2), border_mode='same'))
+    decoder.add(Deconvolution2D(3, 3, 3, subsample=(1, 1), border_mode='same'))
     decoder.add(Activation("relu"))
     decoder.add(Reshape(target_shape=(64, 64, 3), name='out_recon'))
 
@@ -153,10 +153,10 @@ def DeepCapsNet28(input_shape, n_class, routings):
 
     decoder.add(Reshape((7, 7, 16)))
     decoder.add(BatchNormalization(momentum=0.8))
-    decoder.add(tf.keras.layers.Conv2DTranspose(64, 3, 3, subsample=(1, 1), border_mode='same'))
-    decoder.add(tf.keras.layers.Conv2DTranspose(32, 3, 3, subsample=(2, 2), border_mode='same'))
-    decoder.add(tf.keras.layers.Conv2DTranspose(16, 3, 3, subsample=(2, 2), border_mode='same'))
-    decoder.add(tf.keras.layers.Conv2DTranspose(1, 3, 3, subsample=(1, 1), border_mode='same'))
+    decoder.add(Deconvolution2D(64, 3, 3, stride=(1, 1), border_mode='same'))
+    decoder.add(Deconvolution2D(32, 3, 3, stride=(2, 2), border_mode='same'))
+    decoder.add(Deconvolution2D(16, 3, 3, stride=(2, 2), border_mode='same'))
+    decoder.add(Deconvolution2D(1, 3, 3, stride=(1, 1), border_mode='same'))
     decoder.add(Activation("relu"))
     decoder.add(Reshape(target_shape=(28, 28, 1), name='out_recon'))
 
@@ -197,10 +197,10 @@ def BaseCapsNet(input_shape, n_class, routings):
     decoder.add(Dense(input_dim=80, activation="relu", output_dim=8 * 8 * 16))
     decoder.add(Reshape((8, 8, 16)))
     decoder.add(BatchNormalization(momentum=0.8))
-    decoder.add(layers.tf.keras.layers.Conv2DTranspose(64, 3, 3, subsample=(1, 1), border_mode='same'))
-    decoder.add(layers.tf.keras.layers.Conv2DTranspose(32, 3, 3, subsample=(2, 2), border_mode='same'))
-    decoder.add(layers.tf.keras.layers.Conv2DTranspose(16, 3, 3, subsample=(2, 2), border_mode='same'))
-    decoder.add(layers.tf.keras.layers.Conv2DTranspose(3, 3, 3, subsample=(1, 1), border_mode='same'))
+    decoder.add(layers.Deconvolution2D(64, 3, 3, subsample=(1, 1), border_mode='same'))
+    decoder.add(layers.Deconvolution2D(32, 3, 3, subsample=(2, 2), border_mode='same'))
+    decoder.add(layers.Deconvolution2D(16, 3, 3, subsample=(2, 2), border_mode='same'))
+    decoder.add(layers.Deconvolution2D(3, 3, 3, subsample=(1, 1), border_mode='same'))
     decoder.add(Activation("relu"))
     decoder.add(layers.Reshape(target_shape=(32, 32, 3), name='out_recon'))
 
