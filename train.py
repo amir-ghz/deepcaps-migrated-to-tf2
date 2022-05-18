@@ -1,7 +1,7 @@
 from keras import optimizers
 import keras.callbacks as callbacks
 from keras.preprocessing.image import ImageDataGenerator
-from keras.utils import multi_gpu_model
+from tensorflow.python.keras.utils.multi_gpu_utils import multi_gpu_model
 from load_datasets import *
 from utils import margin_loss, margin_loss_hard, CustomModelCheckpoint
 from deepcaps import DeepCapsNet, DeepCapsNet28, BaseCapsNet
