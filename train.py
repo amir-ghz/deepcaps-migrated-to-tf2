@@ -77,7 +77,7 @@ def test(eval_model, data):
 
 class args:
     numGPU = 1
-    epochs = 6
+    epochs = 2
     batch_size = 256
     lr = 0.001
     lr_decay = 0.96
@@ -134,7 +134,9 @@ model, eval_model = DeepCapsNet28(input_shape=x_train.shape[1:], n_class=y_train
 appendix = ""
 train(model=model, data=((x_train, y_train), (x_test, y_test)), hard_training=False, args=args)
 
-model.load_weights(args.save_dir + '/best_weights_2' + appendix + '.h5')
+#model.load_weights(args.save_dir + '/best_weights_2' + appendix + '.h5')
+model.load_weights(args.save_dir + '/best_weights_1' + appendix + '.h5')
+
 appendix = "x"
 train(model=model, data=((x_train, y_train), (x_test, y_test)), hard_training=True, args=args)
 #############################################
