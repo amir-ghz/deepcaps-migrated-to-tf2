@@ -5,7 +5,7 @@ from keras.layers import Input, Conv2D, Activation, Dense, Dropout, Lambda, Resh
 from keras.layers import BatchNormalization
 from keras.layers.convolutional import Deconvolution2D
 from keras.callbacks import Callback, ModelCheckpoint, TensorBoard
-from keras.utils import plot_model
+from keras.utils.vis_utils import plot_model
 from keras.layers.convolutional import UpSampling2D
 import numpy as np
 import tensorflow as tf
