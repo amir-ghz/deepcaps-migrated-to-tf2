@@ -135,7 +135,7 @@ appendix = ""
 train(model=model, data=((x_train, y_train), (x_test, y_test)), hard_training=False, args=args)
 
 #model.load_weights(args.save_dir + '/best_weights_2' + appendix + '.h5')
-model.load_weights(args.save_dir + '/best_weights_1' + appendix + '.h5')
+model.load_weights(args.save_dir + '/best_weights_2' + appendix + '.h5')
 
 appendix = "x"
 train(model=model, data=((x_train, y_train), (x_test, y_test)), hard_training=True, args=args)
