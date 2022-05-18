@@ -77,7 +77,7 @@ def test(eval_model, data):
 
 class args:
     numGPU = 1
-    epochs = 100
+    epochs = 1
     batch_size = 256
     lr = 0.001
     lr_decay = 0.96
@@ -87,7 +87,8 @@ class args:
     shift_fraction = 0.1
     debug = False
     digit = 5
-    save_dir = 'model/CIFAR10/13'
+    #save_dir = 'model/CIFAR10/13'
+    save_dir = 'model/MNIST/1'
     t = False
     w = None
     ep_num = 0
