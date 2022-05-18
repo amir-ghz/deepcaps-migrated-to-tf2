@@ -77,11 +77,11 @@ def test(eval_model, data):
 
 class args:
     numGPU = 1
-    epochs = 150
+    epochs = 50
     batch_size = 256
     lr = 0.001
     lr_decay = 0.96
-    lam_recon = 0.4
+    lam_recon = 0.5
     r = 3
     routings = 3
     shift_fraction = 0.1
