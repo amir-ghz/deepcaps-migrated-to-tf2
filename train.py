@@ -7,6 +7,7 @@ from utils import margin_loss, margin_loss_hard, CustomModelCheckpoint
 from deepcaps import DeepCapsNet, DeepCapsNet28, BaseCapsNet
 import os
 import imp
+import tensorflow as tf
 
 def train(model, data, hard_training, args):
     # unpacking the data
@@ -29,9 +30,11 @@ def train(model, data, hard_training, args):
         parallel_model = model
 
     if(not hard_training):
-        parallel_model.compile(optimizer=optimizers.Adam(lr=args.lr), loss=[margin_loss, 'mse'], loss_weights=[1, 0.4], metrics={'capsnet': "accuracy"})
+        #parallel_model.compile(optimizer=optimizers.Adam(lr=args.lr), loss=[margin_loss, 'mse'], loss_weights=[1, 0.4], metrics={'capsnet': "accuracy"})
+        parallel_model.compile(optimizer=tf.keras.optimizers.Adam(lr=args.lr), loss=[margin_loss, 'mse'], loss_weights=[1, 0.4], metrics={'capsnet': "accuracy"})
     else:
-        parallel_model.compile(optimizer=optimizers.Adam(lr=args.lr), loss=[margin_loss_hard, 'mse'], loss_weights=[1, 0.4], metrics={'capsnet': "accuracy"})
+        #parallel_model.compile(optimizer=optimizers.Adam(lr=args.lr), loss=[margin_loss_hard, 'mse'], loss_weights=[1, 0.4], metrics={'capsnet': "accuracy"})
+        parallel_model.compile(optimizer=tf.keras.optimizers.Adam(lr=args.lr), loss=[margin_loss_hard, 'mse'], loss_weights=[1, 0.4], metrics={'capsnet': "accuracy"})
 
     # Begin: Training with data augmentation
     def train_generator(x, y, batch_size, shift_fraction=args.shift_fraction):
