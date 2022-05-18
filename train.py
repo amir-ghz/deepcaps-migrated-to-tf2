@@ -77,7 +77,7 @@ def test(eval_model, data):
 
 class args:
     numGPU = 1
-    epochs = 2
+    epochs = 150
     batch_size = 256
     lr = 0.001
     lr_decay = 0.96
