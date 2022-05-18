@@ -54,7 +54,7 @@ def load_fmnist():
 
 def load_svhn():
     from scipy import io as spio
-    from keras.utils import to_categorical
+    from tensorflow.keras.utils import to_categorical
     import numpy as np
     svhn = spio.loadmat("train_32x32.mat")
     x_train = np.einsum('ijkl->lijk', svhn["X"]).astype(np.float32) / 255.
