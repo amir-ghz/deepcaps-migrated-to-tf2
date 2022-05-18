@@ -81,18 +81,18 @@ class args:
     batch_size = 256
     lr = 0.001
     lr_decay = 0.96
-    lam_recon = 0.5
+    lam_recon = 0.4
     r = 3
     routings = 3
     shift_fraction = 0.1
     debug = False
     digit = 5
     #save_dir = 'model/CIFAR10/13'
-    save_dir = 'model/MNIST/1'
+    save_dir = 'model/SVHN/1'
     t = False
     w = None
     ep_num = 0
-    dataset = "MNIST"
+    dataset = "SVHN"
 
 os.makedirs(args.save_dir, exist_ok=True)
 try:
