@@ -283,10 +283,10 @@ class ConvCapsuleLayer3D(layers.Layer):
         _, _, _, conv_height, conv_width = conv.get_shape()
         conv = tf.transpose(a=conv, perm=[0, 2, 1, 3, 4])
         votes = K.reshape(conv, [input_shape[0], self.input_num_capsule, self.num_capsule, self.num_atoms, votes_shape[3], votes_shape[4]])
-        votes.set_shape((None, self.input_num_capsule, self.num_capsule, self.num_atoms, conv_height.value, conv_width.value))
+        votes.set_shape((None, self.input_num_capsule, self.num_capsule, self.num_atoms, conv_height, conv_width))
 
         logit_shape = K.stack([input_shape[0], self.input_num_capsule, self.num_capsule, votes_shape[3], votes_shape[4]])
-        biases_replicated = K.tile(self.b, [1, 1, conv_height.value, conv_width.value])
+        biases_replicated = K.tile(self.b, [1, 1, conv_height, conv_width])
 
         activations = update_routing(
             votes=votes,
