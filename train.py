@@ -15,7 +15,7 @@ def train(model, data, hard_training, args):
 
     # callbacks
     log = callbacks.CSVLogger(args.save_dir + '/log' + appendix + '.csv')
-    tb = callbacks.TensorBoard(log_dir=args.save_dir + '/tensorboard-logs', batch_size=args.batch_size, histogram_freq=int(args.debug), write_grads=False)
+    tb = callbacks.TensorBoard(log_dir=args.save_dir + '/tensorboard-logs', histogram_freq=int(args.debug), write_grads=False)
     checkpoint1 = CustomModelCheckpoint(model, args.save_dir + '/best_weights_1' + appendix + '.h5', monitor='val_capsnet_acc', 
                                         save_best_only=False, save_weights_only=True, verbose=1)
 
