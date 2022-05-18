@@ -215,7 +215,7 @@ class Mask_CID(layers.Layer):
             # mask.shape=[None, n_classes]=[None, num_capsule]
             mask = K.argmax(x, 1)
 
-        increasing = tf.range(start=0, limit=tf.shape(inputs)[0], delta=1)
+        increasing = tf.range(start=0, limit=tf.shape(input=inputs)[0], delta=1)
         m = tf.stack([increasing, tf.cast(mask, tf.int32)], axis=1)
         # inputs.shape=[None, num_capsule, dim_capsule]
         # mask.shape=[None, num_capsule]
@@ -266,7 +266,7 @@ class ConvCapsuleLayer3D(layers.Layer):
 
     def call(self, input_tensor, training=None):
 
-        input_transposed = tf.transpose(input_tensor, [0, 3, 4, 1, 2])
+        input_transposed = tf.transpose(a=input_tensor, perm=[0, 3, 4, 1, 2])
         input_shape = K.shape(input_transposed)
         input_tensor_reshaped = K.reshape(input_tensor, [input_shape[0], 1, self.input_num_capsule * self.input_num_atoms, self.input_height, self.input_width])
 
@@ -279,7 +279,7 @@ class ConvCapsuleLayer3D(layers.Layer):
 
         votes_shape = K.shape(conv)
         _, _, _, conv_height, conv_width = conv.get_shape()
-        conv = tf.transpose(conv, [0, 2, 1, 3, 4])
+        conv = tf.transpose(a=conv, perm=[0, 2, 1, 3, 4])
         votes = K.reshape(conv, [input_shape[0], self.input_num_capsule, self.num_capsule, self.num_atoms, votes_shape[3], votes_shape[4]])
         votes.set_shape((None, self.input_num_capsule, self.num_capsule, self.num_atoms, conv_height.value, conv_width.value))
 
@@ -295,7 +295,7 @@ class ConvCapsuleLayer3D(layers.Layer):
             output_dim=self.num_capsule,
             num_routing=self.routings)
 
-        a2 = tf.transpose(activations, [0, 3, 4, 1, 2])
+        a2 = tf.transpose(a=activations, perm=[0, 3, 4, 1, 2])
         return a2
 
     def compute_output_shape(self, input_shape):
@@ -332,7 +332,7 @@ def update_routing(votes, biases, logit_shape, num_dims, input_dim, output_dim,
     else:
         raise NotImplementedError('Not implemented')
 
-    votes_trans = tf.transpose(votes, votes_t_shape)
+    votes_trans = tf.transpose(a=votes, perm=votes_t_shape)
     _, _, _, height, width, caps = votes_trans.get_shape()
 
     def _body(i, logits, activations):
@@ -346,11 +346,11 @@ def update_routing(votes, biases, logit_shape, num_dims, input_dim, output_dim,
         e = logit_shape[4]
         print(logit_shape)
         logit_temp = tf.reshape(logits, [a,b,-1])
-        route_temp = tf.nn.softmax(logit_temp, dim=-1)
+        route_temp = tf.nn.softmax(logit_temp, axis=-1)
         route = tf.reshape(route_temp, [a, b, c, d, e])
         preactivate_unrolled = route * votes_trans
-        preact_trans = tf.transpose(preactivate_unrolled, r_t_shape)
-        preactivate = tf.reduce_sum(preact_trans, axis=1) + biases
+        preact_trans = tf.transpose(a=preactivate_unrolled, perm=r_t_shape)
+        preactivate = tf.reduce_sum(input_tensor=preact_trans, axis=1) + biases
         # activation = _squash(preactivate)
         activation = squash(preactivate, axis=[-1, -2, -3])
         activations = activations.write(i, activation)
@@ -359,7 +359,7 @@ def update_routing(votes, biases, logit_shape, num_dims, input_dim, output_dim,
         tile_shape = np.ones(num_dims, dtype=np.int32).tolist()
         tile_shape[1] = input_dim
         act_replicated = tf.tile(act_3d, tile_shape)
-        distances = tf.reduce_sum(votes * act_replicated, axis=3)
+        distances = tf.reduce_sum(input_tensor=votes * act_replicated, axis=3)
         logits += distances
         return (i + 1, logits, activations)
 
@@ -369,8 +369,8 @@ def update_routing(votes, biases, logit_shape, num_dims, input_dim, output_dim,
 
     i = tf.constant(0, dtype=tf.int32)
     _, logits, activations = tf.while_loop(
-        lambda i, logits, activations: i < num_routing,
-        _body,
+        cond=lambda i, logits, activations: i < num_routing,
+        body=_body,
         loop_vars=[i, logits, activations],
         swap_memory=True)
     a = K.cast(activations.read(num_routing - 1), dtype='float32')
@@ -423,7 +423,7 @@ class DenseCaps(layers.Layer):
         else:
             wr = K.reshape(self.w, (self.ch_i, self.n_i, self.ch_j * self.n_j))
 
-            u = tf.transpose(tf.matmul(tf.transpose(inputs, [1, 0, 2]), wr), [1, 0, 2])
+            u = tf.transpose(a=tf.matmul(tf.transpose(a=inputs, perm=[1, 0, 2]), wr), perm=[1, 0, 2])
 
             u = K.reshape(u, (-1, self.ch_i, self.ch_j, self.n_j))
 
@@ -556,7 +556,7 @@ class CapsuleLayer(layers.Layer):
         assert self.routings > 0, 'The routings should be > 0.'
         for i in range(self.routings):
             # c.shape=[batch_size, num_capsule, input_num_capsule]
-            c = tf.nn.softmax(b, dim=1)
+            c = tf.nn.softmax(b, axis=1)
 
             # c.shape =  [batch_size, num_capsule, input_num_capsule]
             # inputs_hat.shape=[None, num_capsule, input_num_capsule, dim_capsule]
@@ -581,7 +581,7 @@ class CapsuleLayer(layers.Layer):
 
 
 def _squash(input_tensor):
-    norm = tf.norm(input_tensor, axis=-1, keep_dims=True)
+    norm = tf.norm(tensor=input_tensor, axis=-1, keepdims=True)
     norm_squared = norm * norm
     return (input_tensor / norm) * (norm_squared / (1 + norm_squared))
 
