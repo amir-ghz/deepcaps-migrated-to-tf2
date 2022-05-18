@@ -503,6 +503,17 @@ class CapsuleLayer(layers.Layer):
         self.channels = channels
         self.kernel_initializer = initializers.get(kernel_initializer)
 
+    def get_config(self):
+        config = super().get_config()
+        config.update({
+            "num_capsule": self.num_capsule,
+            "dim_capsule": self.dim_capsule,
+            "channels": self.channels,
+            "routings": 3,
+            "kernel_initializer": self.kernel_initializer,
+        })
+        return config
+
     def build(self, input_shape):
         assert len(input_shape) >= 3, "The input Tensor should have shape=[None, input_num_capsule, input_dim_capsule]"
         self.input_num_capsule = input_shape[1]
