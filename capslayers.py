@@ -1,4 +1,5 @@
 from keras import backend as K
+from keras.utils.np_utils import normalize
 import tensorflow as tf
 import numpy as np
 from keras import layers, initializers, regularizers, constraints
@@ -99,7 +100,8 @@ class Conv2DCaps(layers.Layer):
         self.b_alphas = b_alphas
         self.padding = conv_utils.normalize_padding(padding)
         #self.data_format = conv_utils.normalize_data_format(data_format)
-        self.data_format = K.normalize_data_format(data_format)
+        #self.data_format = K.normalize_data_format(data_format)
+        self.data_format = normalize(data_format)
         self.dilation_rate = (1, 1)
         self.kernel_initializer = initializers.get(kernel_initializer)
         self.bias_initializer = initializers.get(bias_initializer)
