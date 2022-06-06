@@ -51,11 +51,24 @@ def load_fmnist():
     y_test = to_categorical(y_test.astype('float32'))
     return (x_train, y_train), (x_test, y_test)
 
+def download_dataset(save_path, verbose=True):
+    import urllib
+    import os
+    if(os.path.isfile(save_path + "train_32x32.mat") == False):
+        if(verbose): print("Downloading train_32x32.mat...")
+        urllib.urlretrieve ("http://ufldl.stanford.edu/housenumbers/train_32x32.mat", save_path + "train_32x32.mat")
+        if(verbose): print("Done!")
+    if(os.path.isfile(save_path + "test_32x32.mat") == False):
+        if(verbose): print("Downloading test_32x32.mat...")
+        urllib.urlretrieve ("http://ufldl.stanford.edu/housenumbers/test_32x32.mat", save_path + "test_32x32.mat")
+        if(verbose): print("Done!")
 
 def load_svhn():
+    download_dataset(save_path="./")
     from scipy import io as spio
     from tensorflow.keras.utils import to_categorical
     import numpy as np
+
     svhn = spio.loadmat("train_32x32.mat")
     x_train = np.einsum('ijkl->lijk', svhn["X"]).astype(np.float32) / 255.
     y_train = to_categorical((svhn["y"] - 1).astype('float32'))
