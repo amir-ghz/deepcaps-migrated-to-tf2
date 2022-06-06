@@ -92,7 +92,7 @@ class args:
     t = False
     w = None
     ep_num = 0
-    dataset = "SVHN"
+    dataset = "MNIST"
 
 os.makedirs(args.save_dir, exist_ok=True)
 try:
@@ -132,7 +132,7 @@ model, eval_model = DeepCapsNet28(input_shape=x_train.shape[1:], n_class=y_train
 
 ################  training  #################  
 appendix = ""
-train(model=model, data=((x_train, y_train), (x_test, y_test)), hard_training=False, args=args)
+train(model=model, data=((x_train, y_train), (x_test, y_test)), hard_training=True, args=args)
 
 #model.load_weights(args.save_dir + '/best_weights_2' + appendix + '.h5')
 model.load_weights(args.save_dir + '/best_weights_2' + appendix + '.h5')
