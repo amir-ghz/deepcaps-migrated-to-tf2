@@ -52,15 +52,15 @@ def load_fmnist():
     return (x_train, y_train), (x_test, y_test)
 
 def download_dataset(save_path, verbose=True):
-    import urllib
+    import urllib.request
     import os
     if(os.path.isfile(save_path + "train_32x32.mat") == False):
         if(verbose): print("Downloading train_32x32.mat...")
-        urllib.urlretrieve ("http://ufldl.stanford.edu/housenumbers/train_32x32.mat", save_path + "train_32x32.mat")
+        urllib.request.urlretrieve ("http://ufldl.stanford.edu/housenumbers/train_32x32.mat", save_path + "train_32x32.mat")
         if(verbose): print("Done!")
     if(os.path.isfile(save_path + "test_32x32.mat") == False):
         if(verbose): print("Downloading test_32x32.mat...")
-        urllib.urlretrieve ("http://ufldl.stanford.edu/housenumbers/test_32x32.mat", save_path + "test_32x32.mat")
+        urllib.request.urlretrieve ("http://ufldl.stanford.edu/housenumbers/test_32x32.mat", save_path + "test_32x32.mat")
         if(verbose): print("Done!")
 
 def load_svhn():
